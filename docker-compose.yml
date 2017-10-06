@@ -1,0 +1,26 @@
+version: '2'
+
+services:
+  nginx:
+    image: nginx
+    restart: always
+    container_name: nginx
+    ports:
+     - "80:80"
+     - "443:443"
+    volumes:
+      - ~/workspace/nginx/nginx:/etc/nginx
+      - ~/workspace/nginx/logs:/var/log/nginx
+      - ~/workspace/nginx/www:/var/www
+    links:
+      - "synapse:synapse"
+  synapse:
+    build: synapse
+    restart: always
+    container_name: synapse
+    ports:
+      - "127.0.0.1:8008:8008"
+      # - "127.0.0.1:8448:8448"
+    volumes:
+      - ~/workspace/synapse/var/lib/synapse:/var/lib/synapse
+      - ~/workspace/synapse/etc/synapse/conf:/etc/synapse/conf
