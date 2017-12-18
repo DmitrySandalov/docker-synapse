@@ -1,6 +1,6 @@
-FROM alpine:3.6
+FROM alpine:3.7
 
-ENV SYNAPSE_VERSION 0.23.1
+ENV SYNAPSE_VERSION 0.25.1
 
 RUN apk add --no-cache \
 		ca-certificates \
@@ -37,9 +37,14 @@ VOLUME /var/lib/synapse
 
 WORKDIR /var/lib/synapse
 
+# RUN /usr/bin/python2 -m synapse.app.homeserver \
+# 		--server-name your.server.com \
+# 		--config-path /etc/synapse/homeserver.yaml \
+# 		--generate-config \
+# 		--report-stats=no \
+#  && rm /etc/synapse/homeserver.yaml
+
 ADD files/homeserver.yaml /etc/synapse/homeserver.yaml
 
-# stack.so workaround for Python's ujson bug
-# https://github.com/esnme/ultrajson/issues/254#issuecomment-314862445
-CMD LD_PRELOAD=/etc/synapse/conf/stack.so /usr/bin/python2 -m synapse.app.homeserver \
+CMD /usr/bin/python2 -m synapse.app.homeserver \
 		--config-path=/etc/synapse/homeserver.yaml
