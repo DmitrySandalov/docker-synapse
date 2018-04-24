@@ -1,6 +1,6 @@
 FROM alpine:3.7
 
-ENV SYNAPSE_VERSION 0.25.1
+ENV SYNAPSE_VERSION 0.27.3
 
 RUN apk add --no-cache \
 		ca-certificates \
